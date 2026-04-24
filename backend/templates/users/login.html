@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+{% block title %}Solea — Login{% endblock %}
+
+{% block extra_css %}
+<style>
+.register-page {
+    max-width: 480px;
+    margin: 60px auto 120px;
+    padding: 0 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.register-hero {
+    background-color: #94B38A;
+    border-radius: 16px;
+    padding: 36px 48px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.register-avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background-color: #EFBF43;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Rowdies", sans-serif;
+    font-size: 26px;
+    color: #C54E2C;
+    flex-shrink: 0;
+}
+
+.register-hero h2 {
+    color: #FFFDF6;
+    font-size: 24px;
+    margin: 0;
+}
+
+.register-hero p {
+    color: #2F4827;
+    font-size: 13px;
+    margin-top: 4px;
+}
+
+.register-card {
+    background-color: #FFE9D3;
+    border-radius: 16px;
+    padding: 36px 48px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.register-card label {
+    display: block;
+    font-family: 'Varela Round', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: #2F4827;
+    margin-bottom: 4px;
+}
+
+.register-card input {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 8px;
+    border: 2px solid #94B38A;
+    background-color: #FFFDF6;
+    font-family: 'Varela Round', sans-serif;
+    font-size: 14px;
+    color: #2F4827;
+    outline: none;
+    transition: border-color 0.2s;
+    box-sizing: border-box;
+}
+
+.register-card input:focus {
+    border-color: #2F4827;
+}
+
+.register-card .field {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-error {
+    color: #C54E2C;
+    font-size: 12px;
+    font-family: 'Varela Round', sans-serif;
+    margin-top: 2px;
+}
+
+.register-submit {
+    margin-top: 8px;
+    padding: 14px;
+    width: 100%;
+    border-radius: 8px;
+    border: none;
+    background-color: #94B38A;
+    color: #FFFDF6;
+    font-family: 'Varela Round', sans-serif;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.register-submit:hover {
+    background-color: #2F4827;
+}
+
+.register-card .login-link {
+    text-align: center;
+    font-family: 'Varela Round', sans-serif;
+    font-size: 13px;
+    color: #2F4827;
+}
+
+.register-card .login-link a {
+    color: #C54E2C;
+    text-decoration: none;
+    font-weight: 600;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="register-page">
+
+    <div class="register-hero">
+        <div class="register-avatar">S</div>
+        <div>
+            <h2>Welcome back</h2>
+            <p>Sign in to your Solea account</p>
+        </div>
+    </div>
+
+    <div class="register-card">
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="field">
+                {{ form.username.label_tag }}
+                {{ form.username }}
+            </div>
+
+            <div class="field" style="margin-top: 12px;">
+                {{ form.password.label_tag }}
+                {{ form.password }}
+            </div>
+
+            {% if form.errors %}
+                <p class="form-error">Invalid username or password.</p>
+            {% endif %}
+
+            <button type="submit" class="register-submit">Sign in</button>
+        </form>
+
+        <p class="login-link">No account? <a href="{% url 'users:register' %}">Register</a></p>
+    </div>
+
+</div>
+{% endblock %}

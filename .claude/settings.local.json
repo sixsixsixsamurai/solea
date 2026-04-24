@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mv /c/Users/kradu/PycharmProjects/ProjectWeb/backend/config/settings.py /c/Users/kradu/PycharmProjects/ProjectWeb/backend/config/settings_old.py)",
+      "Bash(touch /c/Users/kradu/PycharmProjects/ProjectWeb/backend/config/settings/__init__.py)",
+      "Bash(python -m json.tool)",
+      "Bash(python backend/manage.py shell -c \"from django.contrib.auth import get_user_model; User = get_user_model\\(\\); print\\(list\\(User.objects.filter\\(is_superuser=True\\).values\\('username', 'email'\\)\\)\\)\")",
+      "Bash(python backend/manage.py shell -c \"from django.contrib.auth import get_user_model; User = get_user_model\\(\\); u = User.objects.get\\(username='admin'\\); u.set_password\\('admin123'\\); u.save\\(\\); print\\('Password updated'\\)\")",
+      "Bash(python manage.py runserver)",
+      "Bash(python manage.py inspectdb)",
+      "Bash(python manage.py migrate recipes)",
+      "Bash(python manage.py shell -c ' *)"
+    ]
+  }
+}

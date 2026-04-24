@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Solea — Partners{% endblock %}
+
+{% block content %}
+<div class="partners-page">
+    <h1>Our Partners</h1>
+    <div class="partners-grid">
+        {% for partner in partners %}
+        <div class="partner-card">
+            {% if partner.logo %}
+                <img src="{{ partner.logo.url }}" alt="{{ partner.name }}">
+            {% endif %}
+            <h3>{{ partner.name }}</h3>
+            {% if partner.description %}<p>{{ partner.description }}</p>{% endif %}
+            {% if partner.website %}
+                <a href="{{ partner.website }}" target="_blank" rel="noopener">Visit site</a>
+            {% endif %}
+        </div>
+        {% empty %}
+        <p>Partners coming soon.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,430 @@
+{% extends "base.html" %}
+{% block title %}Solea — Cart{% endblock %}
+
+{% block content %}
+<div class="cp-wrap">
+
+    {% if not items %}
+    <!-- EMPTY CART -->
+    <div class="cp-empty">
+        <div class="cp-empty__icon">🛒</div>
+        <h2>Your cart is empty</h2>
+        <p>Add something from the menu to get started.</p>
+        <a href="{% url 'recipes:menu' %}" class="cp-btn-primary">Browse menu</a>
+    </div>
+
+    {% else %}
+    <div class="cp-layout">
+
+        <!-- ====== LEFT COLUMN ====== -->
+        <div class="cp-left">
+
+            <!-- AUTH BANNER -->
+            {% if not user.is_authenticated %}
+            <div class="cp-block cp-auth">
+                <div class="cp-auth__text">
+                    <div class="cp-block__title">Sign in to your account</div>
+                    <p>Log in or create an account to track your order and save your details for next time.</p>
+                </div>
+                <div class="cp-auth__btns">
+                    <a href="{% url 'users:login' %}?next={% url 'orders:cart' %}" class="cp-btn-primary">Sign in</a>
+                    <a href="{% url 'users:register' %}?next={% url 'orders:cart' %}" class="cp-btn-outline">Register</a>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- CART ITEMS -->
+            <div class="cp-block" id="cpItemsBlock">
+                <div class="cp-block__title">
+                    Cart
+                    <span class="cp-block__count" id="cpItemCount">{{ cart_count }} item{{ cart_count|pluralize }}</span>
+                </div>
+
+                <div class="cp-items" id="cpItems">
+                    {% for item in items %}
+                    <div class="cp-item" id="cp-item-{{ item.id }}" data-item-id="{{ item.id }}">
+                        {% if item.recipe.image %}
+                            <img class="cp-item__img" src="{{ item.recipe.image.url }}" alt="{{ item.recipe.title }}">
+                        {% else %}
+                            <div class="cp-item__img-placeholder">🍽</div>
+                        {% endif %}
+
+                        <div class="cp-item__info">
+                            <div class="cp-item__title">{{ item.recipe.title }}</div>
+                            <div class="cp-item__unit-price">${{ item.unit_price }} per serving</div>
+                        </div>
+
+                        <div class="cp-item__controls">
+                            <div class="cp-qty">
+                                <button class="cp-qty__btn cp-qty-minus" data-id="{{ item.id }}">−</button>
+                                <span class="cp-qty__val" id="cp-qty-{{ item.id }}">{{ item.quantity }}</span>
+                                <button class="cp-qty__btn cp-qty-plus" data-id="{{ item.id }}">+</button>
+                            </div>
+                            <div class="cp-item__subtotal" id="cp-sub-{{ item.id }}">${{ item.subtotal }}</div>
+                            <button class="cp-item__remove" data-id="{{ item.id }}" title="Remove">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- PAYMENT -->
+            <div class="cp-block">
+                <div class="cp-block__title">Payment method</div>
+                <div class="cp-payment">
+
+                    <!-- Cash option -->
+                    <label class="cp-pay-option" id="payOptCash">
+                        <input type="radio" name="payment" value="cash" checked id="payCash">
+                        <div class="cp-pay-option__icon">💵</div>
+                        <div class="cp-pay-option__info">
+                            <div class="cp-pay-option__name">Cash on delivery</div>
+                            <div class="cp-pay-option__desc">Pay the courier when your order arrives</div>
+                        </div>
+                    </label>
+
+                    <!-- Card option -->
+                    <label class="cp-pay-option" id="payOptCard">
+                        <input type="radio" name="payment" value="card" id="payCard">
+                        <div class="cp-pay-option__icon">💳</div>
+                        <div class="cp-pay-option__info">
+                            <div class="cp-pay-option__name">Pay by card</div>
+                            <div class="cp-pay-option__desc">Secure online payment</div>
+                        </div>
+                    </label>
+
+                    <!-- Cash sub-options -->
+                    <div class="cp-pay-sub" id="cashSub">
+                        <div class="cp-pay-sub__title">Change from courier</div>
+                        <div class="cp-change-opts">
+                            <label class="cp-change-opt" id="changeOptExact">
+                                <input type="radio" name="change" value="exact" checked>
+                                <div class="cp-change-opt__text">
+                                    <span class="cp-change-opt__name">Exact amount</span>
+                                    <span class="cp-change-opt__desc">No change needed</span>
+                                </div>
+                            </label>
+                            <label class="cp-change-opt" id="changeOptAmount">
+                                <input type="radio" name="change" value="amount">
+                                <div class="cp-change-opt__text">
+                                    <span class="cp-change-opt__name">Prepare change from</span>
+                                    <span class="cp-change-opt__desc">Courier will bring change</span>
+                                </div>
+                            </label>
+                        </div>
+                        <div class="cp-change-input" id="changeAmountWrap" style="display:none;">
+                            <span class="cp-change-label">Prepare change from</span>
+                            <input class="cp-input cp-input--small" type="number" id="changeAmountInput"
+                                   placeholder="e.g. 50" min="0" step="1">
+                            <span class="cp-change-currency">$</span>
+                        </div>
+                    </div>
+
+                    <!-- Card sub-options -->
+                    <div class="cp-pay-sub" id="cardSub" style="display:none;">
+                        <div class="cp-pay-sub__title">Your saved card</div>
+                        <div class="cp-saved-card">
+                            <div class="cp-saved-card__number">5168 **** **** 2001</div>
+                            <div class="cp-saved-card__label">Saved card</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- DELIVERY -->
+            <div class="cp-block">
+                <div class="cp-block__title">Delivery address</div>
+                <div class="cp-delivery">
+                    <div class="cp-field">
+                        <label class="cp-label">City</label>
+                        <input class="cp-input" type="text" name="city" placeholder="e.g. Kyiv" id="cpCity">
+                    </div>
+                    <div class="cp-field cp-field--row">
+                        <div class="cp-field cp-field--grow">
+                            <label class="cp-label">Street</label>
+                            <input class="cp-input" type="text" name="street" placeholder="e.g. Khreshchatyk St" id="cpStreet">
+                        </div>
+                        <div class="cp-field cp-field--small">
+                            <label class="cp-label">House №</label>
+                            <input class="cp-input" type="text" name="house" placeholder="12A" id="cpHouse">
+                        </div>
+                    </div>
+                    <div class="cp-field">
+                        <label class="cp-label">Apartment / Floor <span class="cp-optional">(optional)</span></label>
+                        <input class="cp-input" type="text" name="apartment" placeholder="Apt 5, Floor 2" id="cpApt">
+                    </div>
+                    <div class="cp-addr-error" id="cpAddrError" style="display:none;">
+                        Please fill in city, street and house number before placing the order.
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- /cp-left -->
+
+        <!-- ====== RIGHT COLUMN — SUMMARY ====== -->
+        <div class="cp-right">
+            <div class="cp-summary">
+                <div class="cp-summary__title">Order summary</div>
+
+                <div class="cp-summary__rows" id="cpSummaryRows">
+                    {% for item in items %}
+                    <div class="cp-summary__row" id="cp-srow-{{ item.id }}">
+                        <span class="cp-summary__name">{{ item.recipe.title }} × <span id="cp-scount-{{ item.id }}">{{ item.quantity }}</span></span>
+                        <span class="cp-summary__price" id="cp-sprice-{{ item.id }}">${{ item.subtotal }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <div class="cp-summary__divider"></div>
+
+                <div class="cp-summary__delivery-row">
+                    <span>Delivery</span>
+                    <span class="cp-summary__delivery-free">Free</span>
+                </div>
+
+                <div class="cp-summary__total-row">
+                    <span>Total</span>
+                    <span class="cp-summary__total-price" id="cpTotalPrice">${{ order.total_price }}</span>
+                </div>
+
+                {% if not user.is_authenticated %}
+        <a href="{% url 'users:login' %}?next={% url 'orders:cart' %}" class="cp-btn-checkout cp-btn-checkout--login">
+            Sign in to place order
+        </a>
+        {% else %}
+        <button class="cp-btn-checkout" id="cpCheckout">Place order</button>
+        <div class="cp-checkout-error" id="cpCheckoutError" style="display:none;">
+            Please fill in your delivery address first.
+        </div>
+        {% endif %}
+
+            </div>
+        </div>
+
+    </div><!-- /cp-layout -->
+    {% endif %}
+
+</div>
+
+<!-- ORDER SUCCESS OVERLAY -->
+<div class="order-success-overlay" id="orderSuccessOverlay">
+    <div class="order-success-box">
+        <div class="order-success-icon">✓</div>
+        <h2 class="order-success-title">Order placed!</h2>
+        <p class="order-success-sub">Your order has been successfully placed.</p>
+        <p class="order-success-num" id="orderSuccessNum">Order #—</p>
+        <button class="order-success-btn" id="orderSuccessClose">Continue shopping</button>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+const CSRF = '{{ csrf_token }}';
+
+/* ---------- qty & remove on cart page ---------- */
+document.querySelectorAll('.cp-qty-minus, .cp-qty-plus').forEach(btn => {
+    btn.addEventListener('click', async () => {
+        const id  = btn.dataset.id;
+        const qtyEl = document.getElementById(`cp-qty-${id}`);
+        let qty = parseInt(qtyEl.textContent);
+        qty = btn.classList.contains('cp-qty-plus') ? qty + 1 : qty - 1;
+
+        const res = await fetch(`/cart/update/${id}/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': CSRF,
+                'X-Requested-With': 'XMLHttpRequest',
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `quantity=${qty}`,
+        });
+        if (!res.ok) return;
+        const data = await res.json();
+
+        if (qty < 1) {
+            document.getElementById(`cp-item-${id}`)?.remove();
+            document.getElementById(`cp-srow-${id}`)?.remove();
+            if (!document.querySelector('.cp-item')) location.reload();
+        } else {
+            qtyEl.textContent = qty;
+
+            // recalc subtotal locally
+            const unitText = document.querySelector(`#cp-item-${id} .cp-item__unit-price`).textContent;
+            const unit = parseFloat(unitText.replace('$',''));
+            const sub  = (unit * qty).toFixed(2);
+            const subEl = document.getElementById(`cp-sub-${id}`);
+            if (subEl) subEl.textContent = `$${sub}`;
+
+            // update summary row
+            const scountEl = document.getElementById(`cp-scount-${id}`);
+            const spriceEl = document.getElementById(`cp-sprice-${id}`);
+            if (scountEl) scountEl.textContent = qty;
+            if (spriceEl) spriceEl.textContent = `$${sub}`;
+        }
+
+        // update totals
+        document.getElementById('cpTotalPrice').textContent = `$${data.total_price}`;
+
+        // update badge in header
+        const badge = document.querySelector('.cart-badge');
+        if (badge) {
+            if (data.cart_count > 0) badge.textContent = data.cart_count;
+            else badge.remove();
+        }
+
+        // update item count label
+        const countLabel = document.getElementById('cpItemCount');
+        if (countLabel) {
+            const c = data.cart_count;
+            countLabel.textContent = `${c} item${c !== 1 ? 's' : ''}`;
+        }
+    });
+});
+
+document.querySelectorAll('.cp-item__remove').forEach(btn => {
+    btn.addEventListener('click', async () => {
+        const id = btn.dataset.id;
+        const res = await fetch(`/cart/remove/${id}/`, {
+            method: 'POST',
+            headers: { 'X-CSRFToken': CSRF, 'X-Requested-With': 'XMLHttpRequest' },
+        });
+        if (!res.ok) return;
+        const data = await res.json();
+        document.getElementById(`cp-item-${id}`)?.remove();
+        document.getElementById(`cp-srow-${id}`)?.remove();
+        document.getElementById('cpTotalPrice').textContent = `$${data.total_price}`;
+
+        const badge = document.querySelector('.cart-badge');
+        if (badge) {
+            if (data.cart_count > 0) badge.textContent = data.cart_count;
+            else badge.remove();
+        }
+
+        if (!document.querySelector('.cp-item')) location.reload();
+
+        const countLabel = document.getElementById('cpItemCount');
+        if (countLabel) {
+            const c = data.cart_count;
+            countLabel.textContent = `${c} item${c !== 1 ? 's' : ''}`;
+        }
+    });
+});
+
+/* ---------- payment toggle ---------- */
+const payCash = document.getElementById('payCash');
+const payCard = document.getElementById('payCard');
+const cashSub = document.getElementById('cashSub');
+const cardSub = document.getElementById('cardSub');
+const payOptCash = document.getElementById('payOptCash');
+const payOptCard = document.getElementById('payOptCard');
+
+function updatePaymentUI() {
+    if (payCash?.checked) {
+        cashSub.style.display = 'block';
+        cardSub.style.display = 'none';
+        payOptCash.classList.add('cp-pay-option--active');
+        payOptCard.classList.remove('cp-pay-option--active');
+    } else {
+        cashSub.style.display = 'none';
+        cardSub.style.display = 'block';
+        payOptCard.classList.add('cp-pay-option--active');
+        payOptCash.classList.remove('cp-pay-option--active');
+    }
+}
+
+payCash?.addEventListener('change', updatePaymentUI);
+payCard?.addEventListener('change', updatePaymentUI);
+updatePaymentUI();
+
+/* ---------- change amount toggle ---------- */
+document.querySelectorAll('[name="change"]').forEach(r => {
+    r.addEventListener('change', () => {
+        const wrap = document.getElementById('changeAmountWrap');
+        wrap.style.display = r.value === 'amount' && r.checked ? 'flex' : 'none';
+        if (r.value === 'exact' && r.checked) wrap.style.display = 'none';
+    });
+});
+
+/* ---------- active state on pay options click ---------- */
+[payOptCash, payOptCard].forEach(opt => {
+    opt?.addEventListener('click', () => setTimeout(updatePaymentUI, 0));
+});
+
+/* ---------- checkout validation ---------- */
+document.getElementById('cpCheckout')?.addEventListener('click', async () => {
+    const city   = document.getElementById('cpCity')?.value.trim();
+    const street = document.getElementById('cpStreet')?.value.trim();
+    const house  = document.getElementById('cpHouse')?.value.trim();
+    const errorEl = document.getElementById('cpAddrError');
+
+    if (!city || !street || !house) {
+        errorEl.style.display = 'block';
+        document.getElementById('cpCity').closest('.cp-block').scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+        if (!city)   document.getElementById('cpCity').classList.add('cp-input--error');
+        if (!street) document.getElementById('cpStreet').classList.add('cp-input--error');
+        if (!house)  document.getElementById('cpHouse').classList.add('cp-input--error');
+    } else {
+        errorEl.style.display = 'none';
+        ['cpCity','cpStreet','cpHouse'].forEach(id =>
+            document.getElementById(id)?.classList.remove('cp-input--error')
+        );
+
+        const btn = document.getElementById('cpCheckout');
+        btn.disabled = true;
+        btn.textContent = 'Placing order...';
+
+        const body = new URLSearchParams({
+            city:      document.getElementById('cpCity').value.trim(),
+            street:    document.getElementById('cpStreet').value.trim(),
+            house:     document.getElementById('cpHouse').value.trim(),
+            apartment: document.getElementById('cpApt')?.value.trim() || '',
+        });
+
+        const res = await fetch('/cart/place-order/', {
+            method: 'POST',
+            headers: { 'X-CSRFToken': CSRF, 'Content-Type': 'application/x-www-form-urlencoded' },
+            body,
+        });
+        const data = await res.json();
+
+        if (data.success) {
+            document.getElementById('orderSuccessNum').textContent = `Order #${data.order_id}`;
+            document.getElementById('orderSuccessOverlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+            document.querySelector('.cart-badge')?.remove();
+        } else if (data.error === 'login_required') {
+            window.location.href = '{% url "users:login" %}?next={% url "orders:cart" %}';
+        } else {
+            btn.disabled = false;
+            btn.textContent = 'Place order';
+            document.getElementById('cpCheckoutError').style.display = 'block';
+        }
+    }
+});
+
+/* ---------- success overlay close ---------- */
+document.getElementById('orderSuccessClose')?.addEventListener('click', () => {
+    window.location.href = '{% url "recipes:menu" %}';
+});
+
+/* clear error highlight on input */
+['cpCity','cpStreet','cpHouse'].forEach(id => {
+    document.getElementById(id)?.addEventListener('input', function() {
+        this.classList.remove('cp-input--error');
+        if (document.getElementById('cpCity')?.value.trim() &&
+            document.getElementById('cpStreet')?.value.trim() &&
+            document.getElementById('cpHouse')?.value.trim()) {
+            document.getElementById('cpAddrError').style.display = 'none';
+        }
+    });
+});
+</script>
+{% endblock %}

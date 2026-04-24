@@ -1,0 +1,267 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.big {
+    width: 100%;
+    background-color: #FFFDF6;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* центрує ВСЕ */
+}
+
+.cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    gap: 40px 30px;
+
+    max-width: calc(5 * 200px + 4 * 30px);
+    margin: 20px auto 40px auto;
+}
+
+/* CARD */
+.card {
+    background-color: #FFE9D3;
+    border-radius: 16px;
+    width: 200px;
+    overflow: hidden;
+    font-size: 14px;
+
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.card:hover {
+    transform: scale(1.01);
+    box-shadow: 0 4px 30px rgba(148, 179, 138);
+}
+
+/* IMAGE */
+.card > img {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 16px /*16px 0 0*/;
+}
+
+/* CONTENT */
+.card-content {
+    padding: 16px;
+}
+
+/* TITLE */
+.card h3 {
+    font-family: 'Rowdies', sans-serif;
+    font-size: 18px;
+    color: #94B38A;
+    margin-bottom: 6px;
+}
+
+/* TIME */
+.time {
+    color: #C54E2C;
+    margin-bottom: 8px;
+    font-family: 'Varela Round', sans-serif;
+}
+
+/* DESCRIPTION */
+.card-content p {
+    font-family: 'Varela Round', sans-serif;
+    font-size: 12px;
+    color: #4a6b42;
+    margin-bottom: 8px;
+    line-height: 1.45;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* DECOR LINE */
+.decor {
+    border-top: 1px dashed #94B38A;
+    margin: 8px 0;
+}
+
+/*INGREDIENTS ROW*/
+.card-middle {
+    color: #2F4827;
+    font-family: 'Varela Round', sans-serif;
+}
+
+.ingredients-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+    width: 100%;
+}
+
+.ingredients-block {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    width: 100%;
+}
+
+.ingredients-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #2F4827;
+    margin-bottom: 2px;
+}
+
+.ingredients-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+.ingredient-item {
+    font-size: 12px;
+    color: #5a7a52;
+    font-family: 'Varela Round', sans-serif;
+}
+
+.more-link {
+    font-size: 12px;
+    color: #C54E2C;
+    font-family: 'Varela Round', sans-serif;
+    text-decoration: none;
+    font-weight: 600;
+    margin-top: 2px;
+}
+
+.more-link:hover {
+    text-decoration: underline;
+}
+
+.ammount {
+    font-size: 16px;
+    font-weight: 700;
+    color: #94B38A;
+    flex-shrink: 0;
+    margin-top: 2px;
+    margin-left: 20px;
+}
+
+/* FOOTER */
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 12px;
+}
+.add-btn {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    border: none;
+    background: none;
+    padding: 0;
+}
+.add-btn img:hover {
+    transform: scale(1.1);
+}
+
+/* PRICE */
+.price {
+    font-size: 20px;
+    color: #C54E2C;
+    font-family: 'Varela Round', sans-serif;
+}
+
+/* ICON */
+
+.card-footer img {
+    height: 24px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.elements {
+    display: flex;
+    justify-content: flex-end;
+    gap: 24px;
+    align-items: center;
+
+    width: 100%;
+    max-width: calc(5 * 200px + 4 * 30px); /* ТА Ж САМА ширина */
+    margin-top: 40px;
+    margin-bottom: 10px;
+}
+.elements img{
+    height: 24px;
+}
+
+
+.search {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    width: 100%;
+    max-width: 400px;
+
+    padding: 14px 18px;
+
+    border-radius: 12px;
+    border: 2px solid #EFBF43;
+
+    background-color: #FFFDF6;
+
+    transition: all 0.3s ease;
+}
+
+.search-input {
+    border: none;
+    outline: none;
+    background: transparent;
+
+    width: 100%;
+
+    font-family: "Varela Round";
+    font-size: 16px;
+    color: #2F4827;
+}
+
+.search-input {
+    border: none;
+    outline: none;
+    background: transparent;
+
+    width: 100%;
+
+    font-family: "Varela Round";
+    font-size: 16px;
+    color: #2F4827;
+}
+
+.search-icon {
+    width: 18px;
+    height: 18px;
+    opacity: 0.6;
+}
+
+.search:focus-within {
+    border-color: #94B38A;
+    box-shadow: 0 0 0 4px rgba(148, 179, 138, 0.2);
+}
+
+.buttonSort {
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.buttonSort:hover {
+    transform: scale(1.2);
+}

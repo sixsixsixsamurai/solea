@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Solea — {{ recipe.title }}{% endblock %}
+
+{% block content %}
+<div class="recipe-page">
+    <div class="recipe-top">
+        {% if recipe.image %}
+            <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}">
+        {% else %}
+            <img src="{% static 'images/placeholder.jpg' %}" alt="{{ recipe.title }}">
+        {% endif %}
+
+        <div class="recipe-info">
+            {% if recipe.category %}
+                <span class="category-badge">{{ recipe.category.name }}</span>
+            {% endif %}
+            <h2>{{ recipe.title }}</h2>
+            <div class="time">{{ recipe.cook_time_display }}</div>
+            <p>{{ recipe.description }}</p>
+            <div class="instructions-section">
+                <h2 class="instructions-title">How to cook</h2>
+                <p class="instructions-text">{{ recipe.instructions }}</p>
+            </div>
+            <div class="inLine">
+                <div class="recipe-price">${{ recipe.price }}</div>
+                <form method="post" action="{% url 'orders:add' recipe.id %}" class="detail-add-form">
+                    {% csrf_token %}
+                    <button type="submit" class="buttonCart">
+                        <h4>Add to cart</h4>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Solea{% endblock %}</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&family=Varela+Round&display=swap" rel="stylesheet">
+
+    <link rel="icon" type="image/png" href="/static/images/SoleaIcon.svg">
+    <link rel="stylesheet" href="/static/css/main.css">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+<header class="header">
+    <div class="logo">
+        <a href="{% url 'core:home' %}">
+            <img src="/static/images/Solea.svg" alt="logo Solea" height="56">
+        </a>
+    </div>
+
+    <div class="navigation">
+        <a class="bText1" href="{% url 'core:home' %}">Home</a>
+        <a class="bText1" href="{% url 'recipes:menu' %}">Menu</a>
+        <a class="bText1" href="{% url 'core:sustainability' %}">Sustainability</a>
+        <a class="bText1" href="{% url 'partners:partners' %}">Partners</a>
+    </div>
+
+    <div class="Hbuttons">
+        <a href="{% url 'orders:cart' %}" id="openCart">
+            <img src="/static/images/basket.svg" alt="basket" height="36">
+            {% if cart_count %}<span class="cart-badge">{{ cart_count }}</span>{% endif %}
+        </a>
+        {% if user.is_authenticated %}
+            <a href="{% url 'users:profile' %}">
+                <img src="/static/images/login.svg" alt="profile" height="36">
+            </a>
+        {% else %}
+            <span id="openLogin">
+                <img src="/static/images/login.svg" alt="login" height="36">
+            </span>
+        {% endif %}
+    </div>
+</header>
+
+{% if messages %}
+<div class="messages">
+    {% for message in messages %}
+        <div class="message message--{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+</div>
+{% endif %}
+
+{% block content %}{% endblock %}
+
+{% include "partials/modals.html" %}
+
+<footer>
+    <div id="foot">
+        <div class="f" style="max-width: 50%;">
+            <a href="{% url 'core:home' %}">
+                <img src="/static/images/Solea2.svg" style="height: 60px; align-self: flex-start;">
+            </a>
+            <p>Solea makes cooking simple and stress-free with thoughtfully prepared recipes and perfectly measured ingredients. Less waste, less effort — more time to enjoy what truly matters.</p>
+        </div>
+        <div class="f">
+            <h4>CONTACT US</h4>
+            <p>hello@solea.co</p>
+            <p>4 Shakedown Road. Morioh. JP. 121124</p>
+            <p>+40 519 92 18</p>
+        </div>
+        <div class="f">
+            <h4>FOLLOW US</h4>
+            <p>Join us outside the kitchen</p>
+            <div class="socials">
+                <img src="/static/images/youtube.svg">
+                <img src="/static/images/insta.svg">
+                <img src="/static/images/facebook.svg">
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="/static/js/main.js"></script>
+{% block extra_js %}{% endblock %}
+</body>
+</html>

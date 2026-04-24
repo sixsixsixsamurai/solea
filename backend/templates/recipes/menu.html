@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Solea — Menu{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/menu.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="big">
+    <div class="elements">
+        <div class="buttonSort">
+            <img src="{% static 'images/sort.svg' %}">
+        </div>
+        <div class="search">
+            <img src="{% static 'images/search.svg' %}" alt="search" class="search-icon">
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search recipes..."
+                class="search-input"
+                value="{{ search }}"
+            >
+        </div>
+    </div>
+
+    <div class="cards-container">
+        {% for recipe in recipes %}
+        <div class="card" data-href="{% url 'recipes:detail' recipe.slug %}">
+            {% if recipe.image %}
+                <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}">
+            {% else %}
+                <img src="{% static 'images/placeholder.jpg' %}" alt="{{ recipe.title }}">
+            {% endif %}
+
+            <div class="card-content">
+                <h3>{{ recipe.title }}</h3>
+                <div class="time"><span>{{ recipe.cook_time_display }}</span></div>
+                <p>{{ recipe.description }}</p>
+                <div class="decor"></div>
+                <div class="card-middle">
+                    <div class="ingredients-block">
+                        <div class="ingredients-header">
+                            <span class="ingredients-label">Ingredients</span>
+                            <span class="ammount">{{ recipe.ingredients.count }}</span>
+                        </div>
+                        <div class="ingredients-list">
+                            {% for ing in recipe.ingredients.all|slice:":4" %}
+                                <span class="ingredient-item">{{ ing.ingredient.name }}</span>
+                            {% endfor %}
+                            {% if recipe.ingredients.count > 4 %}
+                                <a href="{% url 'recipes:detail' recipe.slug %}" class="more-link" onclick="event.stopPropagation()">more</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="decor"></div>
+                <div class="card-footer">
+                    <div class="price">${{ recipe.price }}</div>
+                    <form method="post" action="{% url 'orders:add' recipe.id %}" class="add-btn-form">
+                        {% csrf_token %}
+                        <button type="submit" class="add-btn" onclick="event.stopPropagation()">
+                            <img src="{% static 'images/addtobasket.svg' %}" alt="add">
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p class="no-results">No recipes found.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Search with debounce
+const searchInput = document.getElementById('searchInput');
+let searchTimer;
+searchInput?.addEventListener('input', () => {
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(() => {
+        const params = new URLSearchParams(window.location.search);
+        params.set('search', searchInput.value);
+        window.location.search = params.toString();
+    }, 500);
+});
+
+// Card click navigation
+document.querySelectorAll('.card').forEach(card => {
+    card.addEventListener('click', (e) => {
+        if (!e.target.closest('.add-btn-form')) {
+            window.location.href = card.dataset.href;
+        }
+    });
+});
+
+// Sort modal apply
+document.getElementById('applySort')?.addEventListener('click', () => {
+    const sortVal = document.querySelector('input[name="sort"]:checked')?.value;
+    const catVal = document.querySelector('input[name="category"]:checked')?.value;
+    const params = new URLSearchParams(window.location.search);
+    if (sortVal) params.set('sort', sortVal);
+    if (catVal) params.set('category', catVal);
+    window.location.search = params.toString();
+});
+</script>
+{% endblock %}
