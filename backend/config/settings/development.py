@@ -2,7 +2,7 @@ from .base import *
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '178.105.41.27', 'solea.mooo.com']
 
 # Remove WhiteNoise in dev — Django's runserver serves static files directly
 MIDDLEWARE = [m for m in MIDDLEWARE if 'whitenoise' not in m.lower()]
