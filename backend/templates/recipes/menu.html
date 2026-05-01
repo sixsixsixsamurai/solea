@@ -28,11 +28,17 @@
     <div class="cards-container">
         {% for recipe in recipes %}
         <div class="card" data-href="{% url 'recipes:detail' recipe.slug %}">
-            {% if recipe.image %}
-                <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}">
-            {% else %}
-                <img src="{% static 'images/placeholder.jpg' %}" alt="{{ recipe.title }}">
-            {% endif %}
+            <div class="card-img-wrapper">
+                {% if recipe.image %}
+                    <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}">
+                {% else %}
+                    <img src="{% static 'images/placeholder.jpg' %}" alt="{{ recipe.title }}">
+                {% endif %}
+                {% if recipe.category %}{% with slug=recipe.category.slug %}
+                {% if slug == 'vegan' %}<img src="{% static 'images/vegan.svg' %}" alt="Vegan" class="card-category-icon">
+                {% elif slug == 'protein' %}<img src="{% static 'images/protein.svg' %}" alt="Protein" class="card-category-icon">
+                {% endif %}{% endwith %}{% endif %}
+            </div>
 
             <div class="card-content">
                 <h3>{{ recipe.title }}</h3>

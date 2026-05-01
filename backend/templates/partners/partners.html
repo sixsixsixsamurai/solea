@@ -3,24 +3,66 @@
 
 {% block title %}Solea — Partners{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/partners.css' %}">
+{% endblock %}
+
 {% block content %}
-<div class="partners-page">
-    <h1>Our Partners</h1>
-    <div class="partners-grid">
-        {% for partner in partners %}
-        <div class="partner-card">
-            {% if partner.logo %}
-                <img src="{{ partner.logo.url }}" alt="{{ partner.name }}">
-            {% endif %}
-            <h3>{{ partner.name }}</h3>
-            {% if partner.description %}<p>{{ partner.description }}</p>{% endif %}
-            {% if partner.website %}
-                <a href="{{ partner.website }}" target="_blank" rel="noopener">Visit site</a>
-            {% endif %}
+
+<div class="pblock1">
+    <div class="ptext1">
+        <h2>Our Partners</h2>
+        <p>At Solea, we work with trusted farmers, producers, and suppliers who share our values of quality and sustainability. Our partnerships help us bring fresh, carefully selected ingredients directly to your kitchen. By collaborating closely with local producers, we support responsible sourcing and reduce unnecessary waste. Together, we make cooking simpler, fresher, and more meaningful.</p>
+        <div class="fruts">
+            <img src="{% static 'images/f1.png' %}" alt="">
+            <img src="{% static 'images/f2.png' %}" alt="">
+            <img src="{% static 'images/f3.png' %}" alt="">
         </div>
-        {% empty %}
-        <p>Partners coming soon.</p>
-        {% endfor %}
     </div>
 </div>
+
+<div class="pblock2">
+    <div class="pcolumn1">
+        <img src="{% static 'images/sparkle.svg' %}" alt="">
+        <h3>Quality First</h3>
+        <p>We partner with trusted suppliers to ensure every ingredient meets high standards of freshness and care.</p>
+    </div>
+    <div class="pcolumn1">
+        <img src="{% static 'images/light.svg' %}" alt="">
+        <h3>Smart Sourcing</h3>
+        <p>Carefully selected ingredients, delivered in the exact quantities you need — no excess, no guesswork.</p>
+    </div>
+    <div class="pcolumn1">
+        <img src="{% static 'images/applecore.svg' %}" alt="">
+        <h3>Less Waste</h3>
+        <p>Measured portions help reduce food waste while making cooking simpler and more efficient.</p>
+    </div>
+</div>
+
+<div class="pdeco">
+    <img src="{% static 'images/tomatos.svg' %}" alt="">
+</div>
+
+<div class="pblock3">
+    <img src="{% static 'images/fruits.png' %}" alt="Fresh fruits">
+    <div class="pcolumn2">
+        <h2>Sustainable way to cook and enjoy food.</h2>
+        <p>At Solea, great meals begin with strong partnerships. We collaborate with trusted farmers, local suppliers, and responsible producers who share our commitment to quality and sustainability.</p>
+        <p>By working closely with our partners, we ensure that every ingredient meets high standards of freshness, taste, and transparency. These relationships allow us to support local communities while delivering carefully sourced products directly to your kitchen.</p>
+    </div>
+</div>
+
+<div class="deco">
+    <img src="{% static 'images/deco.svg' %}" alt="">
+</div>
+
+<div class="pblock4">
+    <div class="pcolumn2">
+        <h2>Together, We Make It Possible.</h2>
+        <p>At Solea, our partners are at the heart of everything we do. Together, we create a system that values quality, transparency, and thoughtful sourcing at every step.</p>
+        <p>By combining trusted relationships with smart delivery, we make cooking simpler while reducing unnecessary waste. It's a shared effort that turns everyday meals into something more meaningful — for you, and for the world around you.</p>
+    </div>
+    <img src="{% static 'images/products.png' %}" alt="Products">
+</div>
+
 {% endblock %}

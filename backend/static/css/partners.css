@@ -1,0 +1,133 @@
+.pblock1{
+    background-image: url('/static/images/pblock1.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-bottom: 1px solid #C54E2C;
+}
+
+.ptext1{
+    max-height: 700px;
+    width: 60%;
+    padding: 120px;
+    display: flex;
+    background-color: #FFFDF6;
+    border-radius: 50px;
+    justify-self: flex-end;
+    flex-direction: column;
+    justify-content: center;
+    gap: 32px;
+}
+.ptext1 h2{
+    text-align: center;
+    color: #C54E2C;
+}
+.ptext1 p{
+    text-align: left;
+    max-width: 582px;
+    width: 100%;
+    align-self: center;
+}
+
+.fruts{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+.fruts img{
+    height: 174px;
+    width: 174px;
+}
+
+.pblock2{
+    display: flex;
+    padding-top: 120px;
+    padding-bottom: 160px;
+    padding-left: 123px;
+    padding-right: 123px;
+    justify-content: center;
+    gap: 184px;
+}
+.pcolumn1{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 275px;
+    text-align: center;
+    gap: 16px;
+}
+.pcolumn1 img{
+    height: 40px;
+    width: 40px;
+}
+
+.pdeco{
+    height: 210px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.pblock3{
+    padding-top: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 84px;
+}
+.pblock3 img{
+    border-radius: 50px;
+}
+.pcolumn2{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 480px;
+}
+.pcolumn2 h2{
+    color: #C54E2C;
+}
+
+.pblock4{
+    padding-bottom: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 84px;
+}
+.pblock4 img{
+    border-radius: 50px;
+}
+
+/* sustainability */
+.sblock1{
+    background-image: url('/static/images/sustainability.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-bottom: 1px solid #C54E2C;
+}
+
+.stext1{
+    max-height: 700px;
+    width: 60%;
+    padding: 120px;
+    display: flex;
+    background-color: #FFFDF6;
+    border-radius: 50px;
+    justify-self: flex-end;
+    flex-direction: column;
+    justify-content: center;
+    gap: 32px;
+}
+.stext1 h2{
+    text-align: center;
+    color: #C54E2C;
+}
+.stext1 p{
+    text-align: left;
+    max-width: 582px;
+    width: 100%;
+    align-self: center;
+}
