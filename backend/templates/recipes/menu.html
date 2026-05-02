@@ -9,19 +9,84 @@
 
 {% block content %}
 <div class="big">
-    <div class="elements">
-        <div class="buttonSort">
-            <img src="{% static 'images/sort.svg' %}">
+
+    <!-- Page header -->
+    <div class="page-header">
+        <div class="page-header-left">
+            <h1 class="page-title">Our Menu</h1>
+            <p class="page-subtitle">Thoughtfully prepared recipes with fresh, high-quality ingredients.</p>
         </div>
-        <div class="search">
-            <img src="{% static 'images/search.svg' %}" alt="search" class="search-icon">
-            <input
-                type="text"
-                id="searchInput"
-                placeholder="Search recipes..."
-                class="search-input"
-                value="{{ search }}"
-            >
+        <div class="page-header-right">
+            <div class="buttonSort">
+                <img src="{% static 'images/sort.svg' %}">
+            </div>
+            <div class="search">
+                <img src="{% static 'images/search.svg' %}" alt="search" class="search-icon">
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Search recipes..."
+                    class="search-input"
+                    value="{{ search }}"
+                >
+            </div>
+        </div>
+    </div>
+
+    <!-- Recommended section -->
+    {% if recommended %}
+    <div class="recommended-section">
+        <div class="recommended-header">
+                <img src="{% static 'images/sparkle.svg' %}" alt="" class="rec-icon">
+                <div>
+                    <h2 class="recommended-title">Recommended for you</h2>
+                    <p class="recommended-subtitle">Based on your previous orders and preferences</p>
+                </div>
+            </div>
+            <div class="recommended-scroll">
+                {% for recipe in recommended %}
+                <div class="card rec-card" data-href="{% url 'recipes:detail' recipe.slug %}">
+                    <div class="card-img-wrapper">
+                        {% if recipe.image %}
+                            <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}">
+                        {% else %}
+                            <img src="{% static 'images/placeholder.jpg' %}" alt="{{ recipe.title }}">
+                        {% endif %}
+                        <span class="recommended-badge">Recommended</span>
+                        {% if recipe.category %}{% with slug=recipe.category.slug %}
+                        {% if slug == 'vegan' %}<img src="{% static 'images/vegan.svg' %}" alt="Vegan" class="card-category-icon">
+                        {% elif slug == 'protein' %}<img src="{% static 'images/protein.svg' %}" alt="Protein" class="card-category-icon">
+                        {% endif %}{% endwith %}{% endif %}
+                    </div>
+                    <div class="card-content">
+                        <h3>{{ recipe.title }}</h3>
+                        <div class="time"><span>{{ recipe.cook_time_display }}</span></div>
+                        <p>{{ recipe.description }}</p>
+                        <div class="decor"></div>
+                        <div class="card-footer">
+                            <div class="price">${{ recipe.price }}</div>
+                            <form method="post" action="{% url 'orders:add' recipe.id %}" class="add-btn-form">
+                                {% csrf_token %}
+                                <button type="submit" class="add-btn" onclick="event.stopPropagation()">
+                                    <img src="{% static 'images/addtobasket.svg' %}" alt="add">
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+    </div>
+    {% endif %}
+
+    <!-- All Recipes section -->
+    <div class="all-recipes-section">
+        <h2 class="all-recipes-title">All Recipes</h2>
+        <div class="category-chips">
+            <a href="{% url 'recipes:menu' %}" class="chip {% if not current_category %}chip-active{% endif %}">All</a>
+            {% for cat in categories %}
+            <a href="{% url 'recipes:menu' %}?category={{ cat.slug }}" class="chip {% if current_category == cat.slug %}chip-active{% endif %}">{{ cat.name }}</a>
+            {% endfor %}
         </div>
     </div>
 
@@ -39,7 +104,6 @@
                 {% elif slug == 'protein' %}<img src="{% static 'images/protein.svg' %}" alt="Protein" class="card-category-icon">
                 {% endif %}{% endwith %}{% endif %}
             </div>
-
             <div class="card-content">
                 <h3>{{ recipe.title }}</h3>
                 <div class="time"><span>{{ recipe.cook_time_display }}</span></div>
@@ -77,12 +141,12 @@
         <p class="no-results">No recipes found.</p>
         {% endfor %}
     </div>
+
 </div>
 {% endblock %}
 
 {% block extra_js %}
 <script>
-// Search with debounce
 const searchInput = document.getElementById('searchInput');
 let searchTimer;
 searchInput?.addEventListener('input', () => {
@@ -94,7 +158,6 @@ searchInput?.addEventListener('input', () => {
     }, 500);
 });
 
-// Card click navigation
 document.querySelectorAll('.card').forEach(card => {
     card.addEventListener('click', (e) => {
         if (!e.target.closest('.add-btn-form')) {
@@ -103,7 +166,6 @@ document.querySelectorAll('.card').forEach(card => {
     });
 });
 
-// Sort modal apply
 document.getElementById('applySort')?.addEventListener('click', () => {
     const sortVal = document.querySelector('input[name="sort"]:checked')?.value;
     const catVal = document.querySelector('input[name="category"]:checked')?.value;

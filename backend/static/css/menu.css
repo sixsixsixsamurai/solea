@@ -20,6 +20,7 @@
 
     gap: 40px 30px;
 
+    width: 100%;
     max-width: calc(5 * 200px + 4 * 30px);
     margin: 20px auto 40px auto;
 }
@@ -208,19 +209,170 @@
     transition: transform 0.2s ease;
 }
 
-.elements {
+/* PAGE HEADER */
+.page-header {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
+    align-items: flex-start;
     gap: 24px;
-    align-items: center;
 
     width: 100%;
-    max-width: calc(5 * 200px + 4 * 30px); /* ТА Ж САМА ширина */
+    max-width: calc(5 * 200px + 4 * 30px);
     margin-top: 40px;
     margin-bottom: 10px;
 }
-.elements img{
+
+.page-header-left {
+    flex-shrink: 0;
+}
+
+.page-title {
+    font-family: 'Rowdies', sans-serif;
+    font-size: 28px;
+    color: #2F4827;
+    margin-bottom: 4px;
+    padding-top: 0;
+    text-align: left;
+    width: auto;
+}
+
+.page-subtitle {
+    font-family: 'Varela Round', sans-serif;
+    font-size: 13px;
+    color: #5a7a52;
+    max-width: 240px;
+    line-height: 1.4;
+}
+
+.page-header-right {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+}
+.page-header-right img {
     height: 24px;
+}
+
+/* RECOMMENDED SECTION */
+.recommended-section {
+    width: 100%;
+    max-width: calc(5 * 200px + 4 * 30px);
+    background-color: #DFE9DA;
+    border-radius: 20px;
+    margin: 8px 0 8px;
+    padding: 24px 24px 28px;
+}
+
+.recommended-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.rec-icon {
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+}
+
+.recommended-title {
+    font-family: 'Rowdies', sans-serif;
+    font-size: 20px;
+    color: #2F4827;
+    margin-bottom: 2px;
+}
+
+.recommended-subtitle {
+    font-family: 'Varela Round', sans-serif;
+    font-size: 12px;
+    color: #5a7a52;
+}
+
+.recommended-scroll {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    scrollbar-width: thin;
+    scrollbar-color: #94B38A transparent;
+}
+
+.recommended-scroll::-webkit-scrollbar {
+    height: 4px;
+}
+.recommended-scroll::-webkit-scrollbar-thumb {
+    background: #94B38A;
+    border-radius: 4px;
+}
+
+.recommended-scroll .card {
+    flex-shrink: 0;
+}
+
+.rec-card {
+    background-color: #fff;
+}
+
+/* RECOMMENDED BADGE */
+.recommended-badge {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    background-color: #94B38A;
+    color: #fff;
+    font-family: 'Varela Round', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 6px;
+    letter-spacing: 0.3px;
+    pointer-events: none;
+}
+
+/* ALL RECIPES SECTION */
+.all-recipes-section {
+    width: 100%;
+    max-width: calc(5 * 200px + 4 * 30px);
+    margin-top: 24px;
+    margin-bottom: 4px;
+}
+
+.all-recipes-title {
+    font-family: 'Rowdies', sans-serif;
+    font-size: 22px;
+    color: #2F4827;
+    margin-bottom: 14px;
+}
+
+.category-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.chip {
+    font-family: 'Varela Round', sans-serif;
+    font-size: 13px;
+    color: #2F4827;
+    background-color: #FFE9D3;
+    border: 1.5px solid transparent;
+    border-radius: 20px;
+    padding: 6px 16px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.chip:hover {
+    border-color: #94B38A;
+    color: #2F4827;
+}
+
+.chip-active {
+    background-color: #94B38A;
+    color: #fff;
 }
 
 
