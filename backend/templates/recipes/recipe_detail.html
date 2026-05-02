@@ -33,6 +33,22 @@
                 </form>
             </div>
         </div>
+
+        {% if recipe.ingredients.all %}
+        <div class="recipe-ingredients-block">
+            <h3 class="ingredients-block-title">Ingredients</h3>
+            <span class="ingredients-count">{{ recipe.ingredients.count }} items</span>
+            <div class="decor-ing"></div>
+            <ul class="ingredients-detail-list">
+                {% for ing in recipe.ingredients.all %}
+                <li class="ingredients-detail-item">
+                    <span class="ing-name">{{ ing.ingredient.name }}</span>
+                    <span class="ing-qty">{{ ing.quantity }}</span>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

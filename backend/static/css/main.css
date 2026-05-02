@@ -559,6 +559,63 @@ h4 {
     align-items: center;
 }
 
+.recipe-ingredients-block {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 32px;
+    background-color: #DFE9DA;
+    border-radius: 16px;
+    min-width: 220px;
+    max-width: 280px;
+    align-self: flex-start;
+}
+
+.ingredients-block-title {
+    font-family: 'Rowdies', sans-serif;
+    font-size: 20px;
+    color: #2F4827;
+    margin: 0;
+}
+
+.ingredients-count {
+    font-family: 'Varela Round', sans-serif;
+    font-size: 13px;
+    color: #5a7a52;
+}
+
+.decor-ing {
+    border-top: 1px dashed #94B38A;
+    margin: 2px 0;
+}
+
+.ingredients-detail-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.ingredients-detail-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    font-family: 'Varela Round', sans-serif;
+    font-size: 14px;
+}
+
+.ing-name {
+    color: #2F4827;
+    font-weight: 600;
+}
+
+.ing-qty {
+    color: #5a7a52;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
 .buttonCart {
     padding: 14px 24px;
     background-color: #EFBF43;
