@@ -540,6 +540,10 @@ h4 {
     align-self: flex-start;
 }
 
+.category-badge--protein {
+    background-color: #EFBF43;
+}
+
 .recipe-info h2 {
     margin-top: 4px;
 }
@@ -557,6 +561,13 @@ h4 {
     border-top: 1px dashed #94B38A;
     justify-content: space-between;
     align-items: center;
+}
+
+.recipe-side-blocks {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-self: flex-start;
 }
 
 .recipe-ingredients-block {

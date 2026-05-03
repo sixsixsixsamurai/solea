@@ -15,6 +15,10 @@ class RecipeAdmin(admin.ModelAdmin):
     search_fields = ['title', 'description']
     prepopulated_fields = {'slug': ('title',)}
     inlines = [RecipeIngredientInline]
+    fieldsets = [
+        (None, {'fields': ['title', 'slug', 'category', 'description', 'instructions', 'cook_time', 'price', 'image', 'is_active']}),
+        ('Nutrition (per serving)', {'fields': ['calories', 'proteins', 'fats', 'carbohydrates']}),
+    ]
 
 
 @admin.register(Category)

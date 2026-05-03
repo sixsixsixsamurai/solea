@@ -14,7 +14,7 @@
 
         <div class="recipe-info">
             {% if recipe.category %}
-                <span class="category-badge">{{ recipe.category.name }}</span>
+                <span class="category-badge category-badge--{{ recipe.category.slug }}">{{ recipe.category.name }}</span>
             {% endif %}
             <h2>{{ recipe.title }}</h2>
             <div class="time">{{ recipe.cook_time_display }}</div>
@@ -34,21 +34,57 @@
             </div>
         </div>
 
-        {% if recipe.ingredients.all %}
-        <div class="recipe-ingredients-block">
-            <h3 class="ingredients-block-title">Ingredients</h3>
-            <span class="ingredients-count">{{ recipe.ingredients.count }} items</span>
-            <div class="decor-ing"></div>
-            <ul class="ingredients-detail-list">
-                {% for ing in recipe.ingredients.all %}
-                <li class="ingredients-detail-item">
-                    <span class="ing-name">{{ ing.ingredient.name }}</span>
-                    <span class="ing-qty">{{ ing.quantity }}</span>
-                </li>
-                {% endfor %}
-            </ul>
+        <div class="recipe-side-blocks">
+            {% if recipe.ingredients.all %}
+            <div class="recipe-ingredients-block">
+                <h3 class="ingredients-block-title">Ingredients</h3>
+                <span class="ingredients-count">{{ recipe.ingredients.count }} items</span>
+                <div class="decor-ing"></div>
+                <ul class="ingredients-detail-list">
+                    {% for ing in recipe.ingredients.all %}
+                    <li class="ingredients-detail-item">
+                        <span class="ing-name">{{ ing.ingredient.name }}</span>
+                        <span class="ing-qty">{{ ing.quantity }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+
+            {% if recipe.calories or recipe.proteins or recipe.fats or recipe.carbohydrates %}
+            <div class="recipe-ingredients-block">
+                <h3 class="ingredients-block-title">Nutrition</h3>
+                <span class="ingredients-count">per serving</span>
+                <div class="decor-ing"></div>
+                <ul class="ingredients-detail-list">
+                    {% if recipe.calories %}
+                    <li class="ingredients-detail-item">
+                        <span class="ing-name">Calories</span>
+                        <span class="ing-qty">{{ recipe.calories }} kcal</span>
+                    </li>
+                    {% endif %}
+                    {% if recipe.proteins %}
+                    <li class="ingredients-detail-item">
+                        <span class="ing-name">Proteins</span>
+                        <span class="ing-qty">{{ recipe.proteins }} g</span>
+                    </li>
+                    {% endif %}
+                    {% if recipe.fats %}
+                    <li class="ingredients-detail-item">
+                        <span class="ing-name">Fats</span>
+                        <span class="ing-qty">{{ recipe.fats }} g</span>
+                    </li>
+                    {% endif %}
+                    {% if recipe.carbohydrates %}
+                    <li class="ingredients-detail-item">
+                        <span class="ing-name">Carbohydrates</span>
+                        <span class="ing-qty">{{ recipe.carbohydrates }} g</span>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+            {% endif %}
         </div>
-        {% endif %}
     </div>
 </div>
 {% endblock %}

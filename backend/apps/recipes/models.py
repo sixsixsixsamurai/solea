@@ -24,6 +24,11 @@ class Recipe(models.Model):
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    calories = models.PositiveIntegerField(null=True, blank=True, help_text='kcal per serving')
+    proteins = models.DecimalField(max_digits=5, decimal_places=1, null=True, blank=True, help_text='grams')
+    fats = models.DecimalField(max_digits=5, decimal_places=1, null=True, blank=True, help_text='grams')
+    carbohydrates = models.DecimalField(max_digits=5, decimal_places=1, null=True, blank=True, help_text='grams')
+
     def __str__(self):
         return self.title
 
