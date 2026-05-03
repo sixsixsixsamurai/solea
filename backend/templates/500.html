@@ -1,23 +1,68 @@
-{% extends "base.html" %}
-{% load static %}
-
-{% block title %}Solea — Something Went Wrong{% endblock %}
-
-{% block content %}
-<div class="error-page">
-    <div class="error-content">
-        <img src="{% static 'images/leafs.svg' %}" alt="" class="error-icon">
-        <h2 class="error-code">500</h2>
-        <h3 class="error-title">Something went wrong in the kitchen.</h3>
-        <p class="error-text">Our team is already on it. In the meantime, head back home and explore our recipes — we'll have everything sorted shortly.</p>
-        <a href="/" class="button2 error-btn">
-            <h4>Back to Home</h4>
-            <img src="{% static 'images/arrowW.svg' %}" alt="arrow" height="16">
-        </a>
-    </div>
-
-    <div class="deco">
-        <img src="{% static 'images/deco.svg' %}" alt="">
-    </div>
-</div>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solea — Something Went Wrong</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&family=Varela+Round&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background-color: #FFFDF6;
+            font-family: 'Varela Round', sans-serif;
+            color: #2F4827;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+            padding: 40px 20px;
+        }
+        .error-icon { height: 48px; margin-bottom: 24px; }
+        .error-code {
+            font-family: 'Rowdies', sans-serif;
+            font-size: 96px;
+            color: #EFBF43;
+            line-height: 1;
+            margin-bottom: 16px;
+        }
+        .error-title {
+            font-family: 'Rowdies', sans-serif;
+            font-size: 26px;
+            color: #2F4827;
+            margin-bottom: 16px;
+        }
+        .error-text {
+            font-size: 16px;
+            color: #5a7a52;
+            line-height: 1.6;
+            max-width: 440px;
+            margin-bottom: 32px;
+        }
+        .error-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: #EFBF43;
+            border-radius: 8px;
+            padding: 18px 28px;
+            color: #FFFDF6;
+            font-family: 'Varela Round', sans-serif;
+            font-size: 18px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+        .error-btn:hover { background-color: #C54E2C; }
+    </style>
+</head>
+<body>
+    <img src="/static/images/leafs.svg" alt="" class="error-icon">
+    <h1 class="error-code">500</h1>
+    <h2 class="error-title">Something went wrong in the kitchen.</h2>
+    <p class="error-text">Our team is already on it. In the meantime, head back home and explore our recipes — we'll have everything sorted shortly.</p>
+    <a href="/" class="error-btn">Back to Home</a>
+</body>
+</html>
