@@ -99,8 +99,8 @@ def cart_data(request):
 
 @require_POST
 def cart_remove(request, item_id):
-    item = get_object_or_404(OrderItem, pk=item_id)
-    order = item.order
+    order = _get_or_create_cart(request)
+    item = get_object_or_404(OrderItem, pk=item_id, order=order)
     item.delete()
     order.recalculate_total()
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
@@ -111,8 +111,8 @@ def cart_remove(request, item_id):
 
 @require_POST
 def cart_update(request, item_id):
-    item = get_object_or_404(OrderItem, pk=item_id)
-    order = item.order
+    order = _get_or_create_cart(request)
+    item = get_object_or_404(OrderItem, pk=item_id, order=order)
     qty = int(request.POST.get('quantity', 1))
     if qty < 1:
         item.delete()
