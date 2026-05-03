@@ -1551,3 +1551,52 @@ h4 {
 .cp-empty__icon { font-size: 64px; }
 .cp-empty h2 { color: #2F4827; }
 .cp-empty p { color: #94B38A; font-size: 16px; }
+
+/* ERROR PAGES */
+.error-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.error-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: 560px;
+    margin: 100px auto 0;
+    gap: 16px;
+}
+
+.error-icon {
+    height: 48px;
+    margin-bottom: 8px;
+}
+
+.error-code {
+    font-family: 'Rowdies', sans-serif;
+    font-size: 96px;
+    color: #EFBF43;
+    line-height: 1;
+    margin: 0;
+}
+
+.error-title {
+    font-family: 'Rowdies', sans-serif;
+    font-size: 26px;
+    color: #2F4827;
+}
+
+.error-text {
+    font-family: 'Varela Round', sans-serif;
+    font-size: 16px;
+    color: #5a7a52;
+    line-height: 1.6;
+    max-width: 440px;
+}
+
+.error-btn {
+    margin-top: 16px;
+    text-decoration: none;
+}

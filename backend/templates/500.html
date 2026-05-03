@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Solea — Something Went Wrong{% endblock %}
+
+{% block content %}
+<div class="error-page">
+    <div class="error-content">
+        <img src="{% static 'images/leafs.svg' %}" alt="" class="error-icon">
+        <h2 class="error-code">500</h2>
+        <h3 class="error-title">Something went wrong in the kitchen.</h3>
+        <p class="error-text">Our team is already on it. In the meantime, head back home and explore our recipes — we'll have everything sorted shortly.</p>
+        <a href="/" class="button2 error-btn">
+            <h4>Back to Home</h4>
+            <img src="{% static 'images/arrowW.svg' %}" alt="arrow" height="16">
+        </a>
+    </div>
+
+    <div class="deco">
+        <img src="{% static 'images/deco.svg' %}" alt="">
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Solea — Page Not Found{% endblock %}
+
+{% block content %}
+<div class="error-page">
+    <div class="error-content">
+        <img src="{% static 'images/noodles.svg' %}" alt="" class="error-icon">
+        <h2 class="error-code">404</h2>
+        <h3 class="error-title">This recipe doesn't exist.</h3>
+        <p class="error-text">Looks like the page you're looking for got lost somewhere between the kitchen and the table. Let's get you back on track.</p>
+        <a href="/" class="button2 error-btn">
+            <h4>Back to Home</h4>
+            <img src="{% static 'images/arrowW.svg' %}" alt="arrow" height="16">
+        </a>
+    </div>
+
+    <div class="deco">
+        <img src="{% static 'images/deco.svg' %}" alt="">
+    </div>
+</div>
+{% endblock %}
