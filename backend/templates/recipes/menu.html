@@ -82,12 +82,6 @@
     <!-- All Recipes section -->
     <div class="all-recipes-section">
         <h2 class="all-recipes-title">All Recipes</h2>
-        <div class="category-chips">
-            <a href="{% url 'recipes:menu' %}" class="chip {% if not current_category %}chip-active{% endif %}">All</a>
-            {% for cat in categories %}
-            <a href="{% url 'recipes:menu' %}?category={{ cat.slug }}" class="chip {% if current_category == cat.slug %}chip-active{% endif %}">{{ cat.name }}</a>
-            {% endfor %}
-        </div>
     </div>
 
     <div class="cards-container">

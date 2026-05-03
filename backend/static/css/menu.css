@@ -67,10 +67,14 @@
     right: 8px;
     height: 16px;
     width: auto;
-    background-color: #94B38A;
+    background-color: #EFBF43;
     border-radius: 6px;
     padding: 5px 10px;
     box-sizing: content-box;
+}
+
+.card-category-icon[alt="Vegan"] {
+    background-color: #94B38A;
 }
 
 /* TITLE */
@@ -294,7 +298,7 @@
     justify-content: center;
     gap: 20px;
     overflow-x: auto;
-    padding-bottom: 8px;
+    padding: 8px 8px 36px;
     scrollbar-width: thin;
     scrollbar-color: #94B38A transparent;
 }
