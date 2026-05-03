@@ -6,7 +6,12 @@ from .forms import RegisterForm, LoginForm
 
 
 def _merge_guest_cart(request, user):
-    """Переносит гостевую корзину (по session_key) в корзину пользователя."""
+    """Merge the guest session cart into the authenticated user's cart.
+
+    Called right after login or registration so items added while browsing
+    as a guest are not lost. If the same recipe already exists in the user's
+    cart, quantities are combined rather than duplicated.
+    """
     session_key = request.session.session_key
     if not session_key:
         return
@@ -31,10 +36,12 @@ def _merge_guest_cart(request, user):
             defaults={'unit_price': guest_item.unit_price, 'quantity': guest_item.quantity}
         )
         if not created:
+            # Recipe already in user cart — add guest quantity on top
             user_item.quantity += guest_item.quantity
             user_item.save()
 
     user_order.recalculate_total()
+    # Remove the guest cart so it doesn't linger in the database
     guest_order.delete()
 
 

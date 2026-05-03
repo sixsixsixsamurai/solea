@@ -5,8 +5,10 @@ from .models import Recipe, Category
 
 
 def _get_recommendations(request, count=4):
+    """Return personalized recipe recommendations based on the user's order history."""
     from apps.orders.models import Order
 
+    # Fetch delivered orders for the current user or guest session
     if request.user.is_authenticated:
         past_orders = list(
             Order.objects.filter(user=request.user, status=Order.Status.DELIVERED)
@@ -22,6 +24,7 @@ def _get_recommendations(request, count=4):
             ).prefetch_related('items__recipe__category')
         )
 
+    # No order history — fall back to a mix of vegan and protein recipes
     if not past_orders:
         half = count // 2
         vegan = list(Recipe.objects.filter(is_active=True, category__slug='vegan').select_related('category').prefetch_related('ingredients__ingredient').order_by('?')[:half])
@@ -30,6 +33,7 @@ def _get_recommendations(request, count=4):
         random.shuffle(result)
         return result
 
+    # Count how many orders were dominated by each category
     order_category_counts = Counter()
     for order in past_orders:
         cats_in_order = Counter()
@@ -37,6 +41,7 @@ def _get_recommendations(request, count=4):
             if item.recipe.category:
                 cats_in_order[item.recipe.category.slug] += item.quantity
         if cats_in_order:
+            # Credit the most-ordered category for this order
             order_category_counts[cats_in_order.most_common(1)[0][0]] += 1
 
     if not order_category_counts:
@@ -45,6 +50,7 @@ def _get_recommendations(request, count=4):
     total_orders = sum(order_category_counts.values())
     recommended = []
 
+    # Allocate recommendation slots proportionally across preferred categories
     for cat_slug, cat_order_count in order_category_counts.most_common():
         n = max(1, round(cat_order_count / total_orders * count))
         cat_recipes = list(

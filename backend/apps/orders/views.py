@@ -7,6 +7,12 @@ from .models import Order, OrderItem
 
 
 def _get_or_create_cart(request):
+    """Return the active (pending) cart for the current user or guest session.
+
+    Authenticated users have their cart tied to their account so it persists
+    across devices. Guest carts are tied to the session key and merged into
+    the user cart upon login (see users/views.py _merge_guest_cart).
+    """
     if request.user.is_authenticated:
         order, _ = Order.objects.get_or_create(
             user=request.user,
@@ -15,7 +21,7 @@ def _get_or_create_cart(request):
     else:
         if not request.session.session_key:
             request.session.create()
-        request.session.modified = True  # гарантирует Set-Cookie в ответе
+        request.session.modified = True  # ensures Set-Cookie is sent so the session persists
         order, _ = Order.objects.get_or_create(
             session_key=request.session.session_key,
             status=Order.Status.PENDING,
@@ -51,6 +57,7 @@ def cart_add(request, recipe_id):
 
 @require_POST
 def place_order(request):
+    # Only logged-in users can place orders; guests must sign in first
     if not request.user.is_authenticated:
         return JsonResponse({'success': False, 'error': 'login_required'}, status=403)
     order = _get_or_create_cart(request)
@@ -60,8 +67,9 @@ def place_order(request):
     city      = request.POST.get('city', '').strip()
     street    = request.POST.get('street', '').strip()
     house     = request.POST.get('house', '').strip()
-    apartment = request.POST.get('apartment', '').strip()
+    apartment = request.POST.get('apartment', '').strip()  # optional field
 
+    # City, street and house are the minimum required to form a valid delivery address
     if not city or not street or not house:
         return JsonResponse({'success': False, 'error': 'Address is incomplete'}, status=400)
 
