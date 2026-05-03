@@ -308,7 +308,7 @@ h4 {
     background-color: #94B38A;
     display: flex;
     gap: 40px;
-    
+    justify-content: center;
 }
 .f{
     display: flex;
