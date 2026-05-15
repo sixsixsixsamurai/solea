@@ -10,6 +10,7 @@ db.sqlite3
 media/
 staticfiles/
 *.sql
+!solea_db_dump.sql
 
 # IDE
 .idea/
